@@ -2,8 +2,13 @@ import pickle
 from flask import Flask, request, app, jsonify, url_for, render_template
 import numpy as np
 import pandas
+import os
+
 
 app = Flask(__name__)
+
+port = int(os.environ.get('PORT', 5000))  # Default to 5000 if PORT is not set
+
 
 ## Load Model
 regressionModel = pickle.load(open('regmodel.pkl','rb'))
@@ -33,4 +38,4 @@ def predict():
     return render_template("home.html", prediction_text = "The House price prediction is {}.".format(output))
 
 if __name__=="__main__":
-    app.run(debug=False)
+    app.run(host='0.0.0.0', port=port)
